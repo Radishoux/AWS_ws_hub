@@ -1,0 +1,40 @@
+pour ce second exercice, on continue doucement
+
+instanciez une DB via ddb (dynamoDB)
+créez une fonction sur Lambda
+créez une API sur API gateway
+connectez l'api a votre fonction lambda
+faite en sorte que les valeurs recues par l'api soient transférées a la fonction lambda : (aide)
+
+application/json :
+{
+"email": "$input.params('email')"
+}
+
+modifiez votre fonction lambda afin d'acceder a votre ddb : (aide)
+
+const AWS = require('aws-sdk');
+var ddb = new AWS.DynamoDB();
+
+exports.handler = (event, context, callback) => {
+
+    let params = {
+        TableName: 'MA TABLE DDB',
+        KeyConditionExpression: "email = :a",
+        ExpressionAttributeValues: {
+            ":a": {"S": event.email},
+        }
+    };
+    
+    ddb.query(params, function(err, data) {
+        if (err) callback(err, null);
+        else {
+            if (data.Items.length == 0)
+            callback(null, "ko");
+            else 
+            callback(null, data.Items[0]);
+        }
+    });
+};
+
+modifiez votre lambda afin d'écrire sur votre ddb (pas d'aide, ca va, man google un peu aussi)

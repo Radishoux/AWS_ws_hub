@@ -1,0 +1,34 @@
+pour ce premier exercice, on commence simplement
+
+prenez un template : 
+https://superdevresources.com/html-resume-templates/
+
+modifiez le à votre image
+
+connectez vous a la console aws :
+https://aws.amazon.com/fr/console/
+
+allez dans s3
+creez un bucket
+déposez y votre template joliment modifié
+nommez le fichier principal : index.html
+mettez le bucket en public a l'aide des permissions du bucket : 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::NOM_DU_BUCKET/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/public": "yes"
+                }
+            }
+        }
+    ]
+}
+
+faite en sorte que le bucket redirige sur le fichier principal

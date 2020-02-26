@@ -1,0 +1,9 @@
+pour ce dernier exercice, amusez vous
+
+faite une webapp fully responsive
+
+elle récupère ce que je lui donne
+le stock
+s'en sert
+
+(un truc sympa a faire, un chat, stockez qui envoi quoi et quand comme appri et quand vous allez sur le salon de chat afficher tout le contenu de la db a savoir qui a envoyé quoi et quand)

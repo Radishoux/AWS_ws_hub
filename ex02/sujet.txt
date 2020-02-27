@@ -13,28 +13,35 @@ application/json :
 
 modifiez votre fonction lambda afin d'acceder a votre ddb : (aide)
 
+
+
 const AWS = require('aws-sdk');
 var ddb = new AWS.DynamoDB();
 
 exports.handler = (event, context, callback) => {
-
-    let params = {
-        TableName: 'MA TABLE DDB',
-        KeyConditionExpression: "email = :a",
-        ExpressionAttributeValues: {
-            ":a": {"S": event.email},
-        }
+    var params1 = {
+        TableName: 'TADB',
+        Key: {'email': {"S": event.email}}
     };
-    
-    ddb.query(params, function(err, data) {
+    ddb.getItem(params1, function(err, data) {
         if (err) callback(err, null);
-        else {
-            if (data.Items.length == 0)
-            callback(null, "ko");
-            else 
-            callback(null, data.Items[0]);
+        else if(Object.keys(data).length !== 0) callback(null, "this email already has an account");
+        else
+        {
+            var params = {
+                Item: {
+                    'email': {"S" : event.email}
+                },
+                TableName: 'TADB'
+            };
+        
+            ddb.putItem(params, function(err, data) {
+                if (err) callback(err, null);
+                else callback(null, "acc created");
+            });
         }
     });
+    
 };
 
 modifiez votre lambda afin d'écrire sur votre ddb (pas d'aide, ca va, man google un peu aussi)
